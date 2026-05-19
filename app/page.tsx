@@ -1,6 +1,5 @@
-import { ScrollScene } from "@/components/animation/ScrollScene";
 import { StickyNav } from "@/components/homepage/StickyNav";
-import { TrustStrip } from "@/components/homepage/TrustStrip";
+import { HeroSection } from "@/components/homepage/HeroSection";
 import { ProductSection } from "@/components/homepage/ProductSection";
 import { BeforeAfter } from "@/components/homepage/BeforeAfter";
 import { FeaturesGrid } from "@/components/homepage/FeaturesGrid";
@@ -13,12 +12,8 @@ import { Footer } from "@/components/homepage/Footer";
 export default function HomePage() {
   return (
     <>
-      {/* Scroll-pinned 22s animation — acts as the hero. */}
-      <ScrollScene />
-
-      {/* Static homepage continues below */}
       <StickyNav />
-      <TrustStrip />
+      <HeroSection />
       <ProductSection />
       <BeforeAfter />
       <FeaturesGrid />

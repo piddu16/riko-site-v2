@@ -3,7 +3,20 @@
 import { clamp } from "@/lib/easing";
 import { RikoMark } from "./RikoMark";
 
-export function Fold3({ time, t0 = 15 }: { time: number; t0?: number }) {
+export function Fold3({
+  time,
+  t0 = 15,
+  portrait = false,
+}: {
+  time: number;
+  t0?: number;
+  portrait?: boolean;
+}) {
+  if (portrait) return <Fold3Portrait time={time} t0={t0} />;
+  return <Fold3Desktop time={time} t0={t0} />;
+}
+
+function Fold3Desktop({ time, t0 = 15 }: { time: number; t0?: number }) {
   const t = time - t0;
 
   const eyebrowIn = clamp((t - 0.2) / 0.4, 0, 1);
@@ -617,6 +630,357 @@ function WhatsAppThread({
           Message
         </div>
       </div>
+    </div>
+  );
+}
+
+// ─── Portrait (720×1280) ─────────────────────────────────────────────────────
+function Fold3Portrait({ time, t0 = 15 }: { time: number; t0?: number }) {
+  const t = time - t0;
+  const eyebrowIn = clamp((t - 0.2) / 0.4, 0, 1);
+  const h1aIn = clamp((t - 0.4) / 0.5, 0, 1);
+  const h1bIn = clamp((t - 0.7) / 0.55, 0, 1);
+  const subIn = clamp((t - 1.0) / 0.5, 0, 1);
+  const phoneIn = clamp((t - 1.0) / 0.95, 0, 1);
+  const typingOn = t > 2.0 && t < 2.7;
+  const typingDotPhase = ((t - 2.0) * 2) % 1;
+  const msgIn = clamp((t - 2.65) / 0.55, 0, 1);
+  const tickIn = clamp((t - 3.2) / 0.3, 0, 1);
+  const tickDouble = clamp((t - 3.45) / 0.3, 0, 1);
+  const deliveredIn = clamp((t - 3.55) / 0.4, 0, 1);
+  const pillTimes = [3.9, 4.2, 4.5, 4.8];
+  const pillIn = pillTimes.map((ts) => clamp((t - ts) / 0.4, 0, 1));
+  const ctaIn = clamp((t - 5.4) / 0.6, 0, 1);
+  const breathe = t > 5.4 ? (Math.sin((t - 5.4) * 2) + 1) / 2 : 0;
+
+  return (
+    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, #FFFFFF, #F6F9F6)", overflow: "hidden" }}>
+      <div
+        className="mono"
+        style={{
+          position: "absolute",
+          top: 60,
+          left: 40,
+          fontSize: 15,
+          fontWeight: 500,
+          color: "#16A34A",
+          opacity: eyebrowIn,
+        }}
+      >
+        03 / DELIVERED · 09:04 IST
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          top: 100,
+          left: 40,
+          right: 40,
+          fontSize: 96,
+          fontWeight: 600,
+          lineHeight: 1.0,
+          letterSpacing: "-0.045em",
+          color: "#0B1F12",
+        }}
+      >
+        <div style={{ opacity: h1aIn, transform: `translateY(${(1 - h1aIn) * 18}px)` }}>
+          Delivered,
+        </div>
+        <div
+          style={{
+            opacity: h1bIn,
+            transform: `translateY(${(1 - h1bIn) * 18}px)`,
+            marginTop: 4,
+          }}
+        >
+          <span
+            className="serif-italic"
+            style={{ color: "#16A34A", fontSize: 104, letterSpacing: "-0.02em" }}
+          >
+            not
+          </span>{" "}
+          hyped.
+        </div>
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          top: 340,
+          left: 40,
+          right: 40,
+          fontSize: 22,
+          lineHeight: 1.45,
+          color: "#4A5A50",
+          opacity: subIn,
+          transform: `translateY(${(1 - subIn) * 10}px)`,
+        }}
+      >
+        Hindi-English fluent. WhatsApp-native. Every number cited back to a Tally voucher.
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          top: 460,
+          left: 0,
+          right: 0,
+          display: "flex",
+          justifyContent: "center",
+          transform: `translateY(${(1 - phoneIn) * 60}px)`,
+          opacity: phoneIn,
+        }}
+      >
+        <div
+          style={{
+            width: 340,
+            height: 580,
+            background: "#0B1F12",
+            borderRadius: 44,
+            padding: 10,
+            boxShadow: "0 40px 80px rgba(11,31,18,0.22)",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              background: "#ECE5DD",
+              borderRadius: 36,
+              overflow: "hidden",
+              position: "relative",
+            }}
+          >
+            <div
+              style={{
+                background: "#075E54",
+                color: "#FFFFFF",
+                padding: "44px 14px 12px",
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                fontSize: 14,
+                fontWeight: 600,
+              }}
+            >
+              <div
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 20,
+                  background: "#16A34A",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <RikoMark size={20} color="#FFFFFF" spin={0} animateIn={1} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <div>Riko</div>
+                <div style={{ fontSize: 10, opacity: 0.75, fontWeight: 400 }}>online</div>
+              </div>
+            </div>
+            <div style={{ padding: "12px 10px", display: "flex", flexDirection: "column", gap: 6 }}>
+              {typingOn && (
+                <div
+                  style={{
+                    alignSelf: "flex-start",
+                    background: "#FFFFFF",
+                    padding: "10px 12px",
+                    borderRadius: 12,
+                    borderTopLeftRadius: 4,
+                    display: "flex",
+                    gap: 4,
+                  }}
+                >
+                  {[0, 1, 2].map((i) => {
+                    const phase = (typingDotPhase + i * 0.18) % 1;
+                    const o = 0.3 + 0.7 * Math.sin(phase * Math.PI);
+                    return (
+                      <span
+                        key={i}
+                        style={{ width: 5, height: 5, borderRadius: 3, background: "#16A34A", opacity: o }}
+                      />
+                    );
+                  })}
+                </div>
+              )}
+              {msgIn > 0 && (
+                <div
+                  style={{
+                    alignSelf: "flex-start",
+                    maxWidth: "88%",
+                    background: "#FFFFFF",
+                    padding: "8px 10px 6px",
+                    borderRadius: 12,
+                    borderTopLeftRadius: 4,
+                    opacity: msgIn,
+                    transform: `translateY(${(1 - msgIn) * 6}px)`,
+                  }}
+                >
+                  <div style={{ fontSize: 12, color: "#16A34A", fontWeight: 600, marginBottom: 3 }}>
+                    ☀️ Good morning, Arjun
+                  </div>
+                  <div style={{ fontSize: 12, color: "#111B21", lineHeight: 1.4 }}>
+                    Yesterday: <b className="tnum">₹2,18,000</b> revenue, 14 invoices.
+                    <br />
+                    <b>Top overdue:</b> <b className="tnum">₹5.2L</b> from Kothari Traders.
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      gap: 4,
+                      marginTop: 4,
+                      alignItems: "center",
+                    }}
+                  >
+                    <span style={{ fontSize: 9, color: "#667781" }}>9:04</span>
+                    <svg width="14" height="10" viewBox="0 0 16 11" fill="none">
+                      <path
+                        d="M1 6l2.5 2.5L10 2"
+                        stroke={tickDouble > 0 ? "#53BDEB" : "#8696A0"}
+                        strokeWidth="1.4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        opacity={tickIn}
+                      />
+                      <path
+                        d="M5 6l2.5 2.5L14 2"
+                        stroke={tickDouble > 0 ? "#53BDEB" : "#8696A0"}
+                        strokeWidth="1.4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        opacity={tickDouble}
+                      />
+                    </svg>
+                  </div>
+                </div>
+              )}
+              {deliveredIn > 0 && (
+                <div
+                  style={{
+                    alignSelf: "flex-end",
+                    marginTop: 8,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 5,
+                    padding: "5px 9px",
+                    background: "#E8F5EC",
+                    borderRadius: 100,
+                    opacity: deliveredIn,
+                  }}
+                >
+                  <span
+                    style={{ width: 5, height: 5, borderRadius: 3, background: "#16A34A" }}
+                  />
+                  <span
+                    className="mono"
+                    style={{ fontSize: 9, color: "#065F46", fontWeight: 600 }}
+                  >
+                    DELIVERED · 09:04 IST
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          bottom: 130,
+          left: 40,
+          right: 40,
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 8,
+          justifyContent: "center",
+        }}
+      >
+        {[
+          { label: "Read-only", icon: "lock" },
+          { label: "Mumbai-hosted", icon: "server" },
+          { label: "AES-256", icon: "shield" },
+          { label: "Cited", icon: "check" },
+        ].map((p, i) => (
+          <PortraitTrustPill key={i} label={p.label} icon={p.icon} opacity={pillIn[i]} />
+        ))}
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          bottom: 40,
+          left: 40,
+          right: 40,
+          opacity: ctaIn,
+          transform: `translateY(${(1 - ctaIn) * 12}px)`,
+        }}
+      >
+        <button
+          style={{
+            width: "100%",
+            fontSize: 19,
+            fontWeight: 600,
+            padding: "20px 24px",
+            background: "#0B1F12",
+            color: "#FFFFFF",
+            border: "none",
+            borderRadius: 14,
+            letterSpacing: "-0.005em",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 10,
+            boxShadow: `0 0 0 ${breathe * 6}px rgba(22,163,74,${0.18 * breathe}), 0 8px 24px rgba(11,31,18,0.15)`,
+            transition: "box-shadow 80ms",
+          }}
+        >
+          Start free · 5 credits a day, no card
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M5 12h14M13 6l6 6-6 6"
+              stroke="#fff"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function PortraitTrustPill({
+  label,
+  icon,
+  opacity = 1,
+}: {
+  label: string;
+  icon: string;
+  opacity?: number;
+}) {
+  return (
+    <div
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 6,
+        padding: "8px 14px",
+        background: "#E8F5EC",
+        borderRadius: 100,
+        opacity,
+        transform: `translateY(${(1 - opacity) * 6}px)`,
+        fontSize: 13,
+        fontWeight: 600,
+        color: "#065F46",
+      }}
+    >
+      {label}
     </div>
   );
 }

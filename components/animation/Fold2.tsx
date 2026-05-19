@@ -2,7 +2,20 @@
 
 import { clamp, Easing } from "@/lib/easing";
 
-export function Fold2({ time, t0 = 7.5 }: { time: number; t0?: number }) {
+export function Fold2({
+  time,
+  t0 = 7.5,
+  portrait = false,
+}: {
+  time: number;
+  t0?: number;
+  portrait?: boolean;
+}) {
+  if (portrait) return <Fold2Portrait time={time} t0={t0} />;
+  return <Fold2Desktop time={time} t0={t0} />;
+}
+
+function Fold2Desktop({ time, t0 = 7.5 }: { time: number; t0?: number }) {
   const t = time - t0;
 
   const eyebrowIn = clamp((t - 0.3) / 0.4, 0, 1);
@@ -570,6 +583,217 @@ function GhostRow({
         42
       </div>
       <div style={{ color: "#9AA69C", fontSize: 10 }}>SALES</div>
+    </div>
+  );
+}
+
+// ─── Portrait (720×1280) ─────────────────────────────────────────────────────
+function Fold2Portrait({ time, t0 = 7.5 }: { time: number; t0?: number }) {
+  const t = time - t0;
+  const eyebrowIn = clamp((t - 0.3) / 0.4, 0, 1);
+  const h1aIn = clamp((t - 0.5) / 0.5, 0, 1);
+  const h1bIn = clamp((t - 0.9) / 0.5, 0, 1);
+  const tallyIn = clamp((t - 0.6) / 0.7, 0, 1);
+  const cardIn = clamp((t - 3.6) / 0.7, 0, 1);
+  const btnPulse = (Math.sin((t - 5.2) * 2.4) + 1) / 2;
+  const btnGlow = t > 5.2 ? btnPulse : 0;
+
+  return (
+    <div style={{ position: "absolute", inset: 0, background: "#FFFFFF", overflow: "hidden" }}>
+      <div
+        className="mono"
+        style={{
+          position: "absolute",
+          top: 80,
+          left: 40,
+          fontSize: 16,
+          fontWeight: 500,
+          color: "#16A34A",
+          opacity: eyebrowIn,
+        }}
+      >
+        02 / ABOVE TALLY · NEVER INSIDE
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          top: 130,
+          left: 40,
+          right: 40,
+          fontSize: 76,
+          fontWeight: 600,
+          lineHeight: 1.02,
+          letterSpacing: "-0.04em",
+          color: "#0B1F12",
+        }}
+      >
+        <div style={{ opacity: h1aIn, transform: `translateY(${(1 - h1aIn) * 16}px)` }}>
+          One layer{" "}
+          <span
+            className="serif-italic"
+            style={{ color: "#16A34A", fontSize: 82, letterSpacing: "-0.02em" }}
+          >
+            above
+          </span>{" "}
+          your books.
+        </div>
+        <div
+          style={{
+            opacity: h1bIn,
+            transform: `translateY(${(1 - h1bIn) * 16}px)`,
+            fontSize: 22,
+            fontWeight: 400,
+            letterSpacing: "-0.005em",
+            lineHeight: 1.45,
+            color: "#4A5A50",
+            marginTop: 18,
+          }}
+        >
+          Riko reads from Tally, never writes back.
+        </div>
+      </div>
+
+      {cardIn > 0 && (
+        <div
+          style={{
+            position: "absolute",
+            top: 520,
+            left: 40,
+            right: 40,
+            opacity: cardIn,
+            transform: `translateY(${(1 - cardIn) * 16}px) scale(${0.96 + 0.04 * cardIn})`,
+            zIndex: 3,
+          }}
+        >
+          <div
+            style={{
+              background: "#FFFFFF",
+              border: "1px solid #D0D8D2",
+              borderRadius: 18,
+              padding: "26px 28px",
+              boxShadow: "0 16px 48px rgba(11,31,18,0.10)",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
+              <span
+                className="mono"
+                style={{
+                  fontSize: 12,
+                  fontWeight: 600,
+                  padding: "5px 11px",
+                  borderRadius: 100,
+                  background: "#FEF2F2",
+                  color: "#DC2626",
+                }}
+              >
+                OVERDUE
+              </span>
+            </div>
+            <div
+              className="tnum"
+              style={{
+                fontSize: 64,
+                fontWeight: 600,
+                color: "#0B1F12",
+                letterSpacing: "-0.03em",
+                lineHeight: 1,
+              }}
+            >
+              ₹5,24,000
+            </div>
+            <div style={{ marginTop: 10, fontSize: 19, color: "#243329", fontWeight: 500 }}>
+              Kothari Traders · 42 days overdue
+            </div>
+            <div className="tnum" style={{ marginTop: 6, fontSize: 16, color: "#9AA69C" }}>
+              Bill INV-2841 · 3 reminders sent
+            </div>
+            <button
+              style={{
+                marginTop: 20,
+                width: "100%",
+                fontSize: 17,
+                fontWeight: 600,
+                padding: "14px 20px",
+                background: "#16A34A",
+                color: "#FFFFFF",
+                border: "none",
+                borderRadius: 12,
+                boxShadow: `0 0 0 ${btnGlow * 8}px rgba(22,163,74,${0.15 * btnGlow})`,
+                transition: "box-shadow 80ms",
+              }}
+            >
+              Send WhatsApp reminder
+            </button>
+            <div
+              className="mono"
+              style={{
+                marginTop: 12,
+                fontSize: 11,
+                color: "#9AA69C",
+                textAlign: "center",
+              }}
+            >
+              CITED · VOUCHER #58294 · SYNCED 90s AGO
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div
+        style={{
+          position: "absolute",
+          top: 920,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "#EEF3EF",
+          transform: `translateY(${(1 - tallyIn) * 80}px)`,
+          opacity: tallyIn,
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            height: 36,
+            background: "#243329",
+            color: "#F6F9F6",
+            display: "flex",
+            alignItems: "center",
+            padding: "0 40px",
+            fontSize: 11,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            fontFamily: "var(--font-jetbrains-mono), monospace",
+          }}
+        >
+          <span style={{ opacity: 0.85 }}>TALLY · OUTSTANDING RECEIVABLES</span>
+        </div>
+        <div
+          style={{
+            padding: "16px 24px",
+            fontFamily: "var(--font-jetbrains-mono), monospace",
+            fontSize: 14,
+            color: "#243329",
+            position: "relative",
+          }}
+        >
+          {["Kothari Traders · ₹5.24L · 42d", "Mehta Foods · ₹1.82L · 37d", "Sharma Auto · ₹0.94L · 34d", "Patel & Sons · ₹3.11L · 31d"].map((row, i) => (
+            <div
+              key={i}
+              style={{
+                padding: "10px 14px",
+                borderBottom: "1px solid #D0D8D2",
+                opacity: i === 0 ? 0.25 : 1,
+                color: i === 0 ? "#9AA69C" : "#0B1F12",
+                fontWeight: i === 0 ? 400 : 500,
+              }}
+            >
+              {row}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
