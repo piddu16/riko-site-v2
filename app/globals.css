@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #0B1F12;
+  --ink-2: #243329;
+  --muted: #4A5A50;
+  --faint: #9AA69C;
+  --line: #D0D8D2;
+  --line-soft: #E5EBE7;
+  --tint: #F6F9F6;
+  --tint-2: #EEF3EF;
+  --tint-accent: #E8F5EC;
+  --accent: #16A34A;
+  --accent-bright: #22C55E;
+  --accent-deep: #065F46;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  color: var(--ink);
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "ss01", "cv11", "cv02";
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+.serif-italic {
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.mono {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum", "cv11";
+}
+
+/* Hide scroll-driven scrollbar but keep scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Cycling hero word slot — used in the static homepage hero */
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50%      { transform: scale(1.6); opacity: 0; }
+}
+.pulse-dot::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: var(--accent-bright);
+  opacity: 0.3;
+  animation: pulse-dot 2s infinite;
+}
